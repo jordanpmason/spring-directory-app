@@ -60,6 +60,8 @@ public class PersonDataAccessService implements PersonDao {
 
   @Override
   public int updatePersonById(UUID id, Person person) {
-    return 0;
+    final String sql = "UPDATE person SET name = ? WHERE id = ?";
+    int updatedPerson = jdbcTemplate.update(sql, new Object[]{person.getName(), id}, new int[]{Types.VARCHAR, Types.OTHER});
+    return updatedPerson;
   }
 }

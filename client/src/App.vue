@@ -2,7 +2,7 @@
   <div id="app" class="small-container">
     <h1>Spring Boot Client</h1>
     <PersonForm @addPerson="createPerson" @findAll="getAllPeople" @findPerson="getPerson" />
-    <PersonTable @deletePerson="removePerson" :people="people" />
+    <PersonTable @deletePerson="removePerson" @editPerson="updatePerson" :people="people" />
   </div>
 </template>
 
@@ -63,6 +63,16 @@ export default {
     },
     removePerson(personId) {
       api.deletePersonById(personId)
+      .catch(error => {
+        this.error = error;
+      })
+      .finally(() => {
+        this.loading = false;
+        this.getAllPeople();
+      });
+    },
+    updatePerson(personId, newPersonName) {
+      api.updatePersonById(personId, newPersonName)
       .catch(error => {
         this.error = error;
       })

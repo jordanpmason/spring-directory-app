@@ -16,7 +16,7 @@
         <td v-else @click="editMode(person.id)" class="person-name">{{ person.name }}</td>
         <td class="person-id">{{ person.id }}</td>
         <td v-if="editing == person.id">
-          <button>Save</button>
+          <button @click="editPerson(person.id, person.name)">Save</button>
           <button class="muted-button" @click="cancelEdit">Cancel</button>
         </td>
         <td v-else>
@@ -44,6 +44,10 @@
       },
       cancelEdit() {
         this.editing = null
+      },
+      editPerson(personId, newPersonName) {
+        this.$emit('editPerson', personId, newPersonName);
+        this.editing = null;
       }
     }
   }
