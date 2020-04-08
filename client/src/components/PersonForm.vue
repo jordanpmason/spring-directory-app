@@ -22,7 +22,7 @@
     methods: {
       handleSubmit(e) {
         if (e.target.name == 'add_person') {
-          console.log('Name: ' + this.person.input);
+          this.$emit('addPerson', this.person.input);
         } else if (e.target.name == 'find_person') {
           this.$emit('findPerson', this.person.input);
         }

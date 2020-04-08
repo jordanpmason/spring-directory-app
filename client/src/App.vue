@@ -1,7 +1,7 @@
 <template>
   <div id="app" class="small-container">
     <h1>Spring Boot Client</h1>
-    <PersonForm @findAll="getAllPeople" @findPerson="getPerson" />
+    <PersonForm @addPerson="createPerson" @findAll="getAllPeople" @findPerson="getPerson" />
     <PersonTable :people="people" />
   </div>
 </template>
@@ -26,6 +26,16 @@ export default {
     this.getAllPeople()
   },
   methods: {
+    createPerson(personName) {
+      api.insertPerson(personName)
+      .catch(error => {
+        this.error = error;
+      })
+      .finally(() => {
+        this.loading = false;
+        this.getAllPeople();
+      });
+    },
     getAllPeople() {
       api.getAll()
       .then(response => {

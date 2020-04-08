@@ -1,6 +1,7 @@
 package com.example.demo.dao;
 
 import com.example.demo.model.Person;
+import java.sql.Types;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -20,32 +21,34 @@ public class PersonDataAccessService implements PersonDao {
 
   @Override
   public int insertPerson(UUID id, Person person) {
-    return 0;
+    final String sql = "INSERT INTO person (id, name) VALUES (?, ?)";
+    int newPerson = jdbcTemplate.update(sql, new Object[]{id, person.getName()}, new int[]{Types.OTHER, Types.VARCHAR});
+    return newPerson;
   }
 
   @Override
   public List<Person> selectAllPeople() {
     final String sql = "SELECT id, name FROM person";
-    List<Person> producers = jdbcTemplate.query(sql, (resultSet, i) -> {
+    List<Person> people = jdbcTemplate.query(sql, (resultSet, i) -> {
       UUID id = UUID.fromString(resultSet.getString("id"));
       String name = resultSet.getString("name");
       return new Person(id, name);
     });
-    return producers;
+    return people;
   }
 
   @Override
   public Optional<Person> selectPersonById(UUID id) {
     final String sql = "SELECT id, name FROM person WHERE id = ?";
-    Person producer = jdbcTemplate.queryForObject(
+    Person person = jdbcTemplate.queryForObject(
         sql,
         new Object[]{id},
         (resultSet, i) -> {
-          UUID producerId = UUID.fromString(resultSet.getString("id"));
+          UUID personId = UUID.fromString(resultSet.getString("id"));
           String name = resultSet.getString("name");
-          return new Person(producerId, name);
+          return new Person(personId, name);
         });
-    return Optional.ofNullable(producer);
+    return Optional.ofNullable(person);
   }
 
   @Override

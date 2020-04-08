@@ -16,5 +16,6 @@ export default {
       return data ? JSON.parse(data) : data;
     }]
   }),
+  insertPerson: (personName) => instance.post('person', { name: personName }),
   getById: (personId) => instance.get('person/' + personId)
 }
