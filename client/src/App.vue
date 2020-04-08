@@ -1,7 +1,7 @@
 <template>
   <div id="app" class="small-container">
     <h1>Spring Boot Client</h1>
-    <PersonForm @findAll="getPeople" @findPerson="getPerson" />
+    <PersonForm @findAll="getAllPeople" @findPerson="getPerson" />
     <PersonTable :people="people" />
   </div>
 </template>
@@ -19,33 +19,24 @@ export default {
   },
   data() {
     return {
-      people: [
-        {
-          name: "Aubrey Graham",
-          id: "1234"
-        },
-        {
-          name: "Nayvadius Wilburn",
-          id: "5678"
-        }
-      ]
+      people: []
     }
   },
   mounted() {
-    api.getAll()
-    .then(response => {
-      this.people = response.data;
-    })
-    .catch(error => {
-      this.error = error;
-    })
-    .finally(() => {
-      this.loading = false;
-    })
+    this.getAllPeople()
   },
   methods: {
-    getPeople() {
-      return this.people;
+    getAllPeople() {
+      api.getAll()
+      .then(response => {
+        this.people = response.data;
+      })
+      .catch(error => {
+        this.error = error;
+      })
+      .finally(() => {
+        this.loading = false;
+      })
     },
     getPerson(personId) {
       api.getById(personId)
