@@ -1,17 +1,33 @@
 <template>
   <div id="person-form">
-    <form>
-      <input ref="nameInput" type="text" />
+    <form @click.prevent="handleSubmit($event)">
+      <input ref="nameInput" v-model="person.input" type="text" />
       <button type="submit" name="add_person" value="Add Person">Add Person</button>
-      <button type="submit" name="update_person" value="Find Person By ID">Find Person By ID</button>
-      <button @click="$emit('findAll')">Find  All</button>
+      <button type="submit" name="find_person" value="Find Person By ID">Find Person By ID</button>
+      <button @click="$emit('findAll')">Find All</button>
     </form>
   </div>
 </template>
 
 <script>
   export default {
-    name: "PersonForm"
+    name: "PersonForm",
+    data () {
+      return {
+        person: {
+          input: ''
+        }
+      }
+    },
+    methods: {
+      handleSubmit(e) {
+        if (e.target.name == 'add_person') {
+          console.log('Name: ' + this.person.input);
+        } else if (e.target.name == 'find_person') {
+          this.$emit('findPerson', this.person.input);
+        }
+      }
+    }
   }
 </script>
 
