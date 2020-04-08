@@ -17,5 +17,6 @@ export default {
     }]
   }),
   insertPerson: (personName) => instance.post('person', { name: personName }),
-  getById: (personId) => instance.get('person/' + personId)
+  getById: (personId) => instance.get('person/' + personId),
+  deletePersonById: (personId) => instance.delete('person/' + personId)
 }

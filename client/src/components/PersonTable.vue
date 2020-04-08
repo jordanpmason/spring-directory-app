@@ -20,7 +20,7 @@
           <button class="muted-button" @click="cancelEdit">Cancel</button>
         </td>
         <td v-else>
-          <button>Delete</button>
+          <button @click="$emit('deletePerson', person.id)">Delete</button>
         </td>
       </tr>
     </table>
