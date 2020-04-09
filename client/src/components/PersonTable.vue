@@ -13,7 +13,7 @@
         <td v-if="editing == person.id">
           <input  type="text" v-model="person.name" @focus="clearStatus" @keypress="clearStatus" />
         </td>
-        <td v-else @click="editMode(person.id, person.name)" class="person-name">{{ person.name }}</td>
+        <td v-else @click="editMode(person.id)" class="person-name">{{ person.name }}</td>
         <td class="person-id">{{ person.id }}</td>
         <td v-if="editing == person.id">
           <button @click="editPerson(person.id, person.name)">Save</button>
@@ -45,17 +45,16 @@
         submitting: false,
         error: false,
         success: false,
-        originalName: ''
       }
     },
     methods: {
-      editMode(personId, personName) {
+      editMode(personId) {
         this.editing = personId;
-        this.originalName = personName;
       },
       cancelEdit() {
         this.editing = null;
         this.clearStatus();
+        this.$emit('cancelEdit');
       },
       editPerson(personId, newPersonName) {
         this.submitting = true;
@@ -69,7 +68,6 @@
         this.$emit('editPerson', personId, newPersonName);
         this.editing = null;
         this.submitting = false;
-        this.originalName = '';
         this.error = false;
         this.success = true;
       },

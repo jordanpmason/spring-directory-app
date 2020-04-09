@@ -1,8 +1,8 @@
 <template>
-  <div id="app" class="small-container">
+  <div id="app" class="medium-container">
     <h1>Spring Boot Client</h1>
     <PersonForm @addPerson="createPerson" @findAll="getAllPeople" @findPerson="getPerson" />
-    <PersonTable @deletePerson="removePerson" @editPerson="updatePerson" :people="people" />
+    <PersonTable @deletePerson="removePerson" @editPerson="updatePerson" @cancelEdit="getAllPeople" :people="people" />
   </div>
 </template>
 
